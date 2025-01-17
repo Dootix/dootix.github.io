@@ -7,4 +7,4 @@ title: Malware Analysis and Reverse Engineering by Dootix
 - [AgentTesla Analysis Report](./Reports/AgentTesla_analysis_report.pdf)
 
 ## Posts
-[Post1](/_posts/post1/)
+[Post1](/_posts/post1.md/)
