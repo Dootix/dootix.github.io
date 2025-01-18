@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Press Start 2P', monospace; /* Pixelated font for that 8-bit feel */
   background-color: #0a0a0a; /* Dark background for high contrast */
   color: #e5e5e5; /* Light text */
   line-height: 1.6;
