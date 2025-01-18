@@ -1,0 +1,19 @@
+---
+
+# File: assets/css/style.css
+body {
+  background: #0a0a0a;
+  color: #f5f5f5;
+  font-family: Arial, sans-serif;
+}
+header, footer {
+  background: #101010;
+  padding: 1rem;
+}
+a {
+  color: #39ff14;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
