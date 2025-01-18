@@ -2,7 +2,7 @@
 
 During my recent "C coding and subsequent reversing" session I've been experimenting with memory allocations, utilizing standard C functions like `memcpy(`) or WinApi's `RtlCopyMemory`.
 
-Binary was compiled as x64 in VS2022's Release mode. Below, you can see the optimization that was applied, instead of direct `memcpy() call, that I specified in the original code:
+Binary was compiled as x64 in VS2022's Release mode. Below, you can see the optimization that was applied, instead of direct `memcpy()` call that I specified in the original code:
 
 <img width="617" alt="image" src="https://github.com/user-attachments/assets/1ce897c9-f092-470f-9313-61b8a62e2661" />
 
