@@ -26,16 +26,32 @@
     </div>
 
     <!-- Main Content -->
-    <div class="content">
+    <div class="content" id="content">
       <h1>Welcome to My Reverse Engineering & Malware Analysis Blog</h1>
       <p>This is where I write about reverse engineering, malware analysis, and other cybersecurity topics.</p>
-      
+
       <h2>Latest Posts</h2>
       <ul>
-        <li><a href="posts/reversing-example.html">Reversing Example 1</a></li>
+        <li><a href="posts/reversing-example.md" class="load-markdown" data-file="posts/reversing-example.md">Reversing Example 1</a></li>
         <!-- Add more posts here -->
       </ul>
     </div>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    // JavaScript to fetch and render Markdown
+    document.querySelectorAll('.load-markdown').forEach(link => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const file = this.getAttribute('data-file');
+        fetch(file)
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById('content').innerHTML = marked(data);
+          });
+      });
+    });
+  </script>
 </body>
 </html>
