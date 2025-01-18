@@ -1,0 +1,12 @@
+---
+
+# File: _layouts/report.html
+{% include head.html %}
+<section>
+  <h1>{{ page.title }}</h1>
+  <p><strong>Published on:</strong> {{ page.date | date: "%B %d, %Y" }}</p>
+</section>
+<article>
+  {{ content }}
+</article>
+{% include footer.html %}
