@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reverse Engineering & Malware Analysis by Dootix</title>
   <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -39,26 +40,22 @@
   </div>
 
   <!-- JavaScript to handle Markdown loading via GitHub API -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
     document.querySelectorAll('.load-markdown').forEach(link => {
   link.addEventListener('click', function (e) {
     e.preventDefault();
     const file = this.getAttribute('data-file');
-    
-    // Fetch the file data from GitHub API
+
+    // Fetch content directly from GitHub API
     fetch(`https://api.github.com/repos/Dootix/dootix.github.io/contents/${file}?ref=main`)
       .then(response => response.json())
       .then(data => {
         if (data.content) {
-          // Decode base64 content
-          const decodedContent = atob(data.content);
+          // Decode base64 content and log it to check for correctness
+          const decodedContent = atob(data.content);  // Decode base64 content
+          const htmlContent = marked(decodedContent); // Convert markdown to HTML
 
-          // Convert decoded content to HTML using marked.js
-          const htmlContent = marked(decodedContent);
-
-          // Inject the HTML content into the page
-          document.getElementById('content').innerHTML = htmlContent;
+          document.getElementById('content').innerHTML = htmlContent; // Display the parsed content
         } else {
           console.error("No content found!");
         }
@@ -68,6 +65,7 @@
       });
   });
 });
+
   </script>
 </body>
 </html>
