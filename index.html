@@ -50,14 +50,18 @@
     fetch(`https://api.github.com/repos/Dootix/dootix.github.io/contents/${file}?ref=main`)
       .then(response => response.json())
       .then(data => {
-        if (data.content) {
-          // Decode base64 content and log it to check for correctness
-          const decodedContent = atob(data.content);  // Decode base64 content
+        // Log the full response to check if it contains content
+        console.log("GitHub API response:", data);
+
+        if (data && data.content) {
+          // Decode base64 content
+          const decodedContent = atob(data.content);
           const htmlContent = marked(decodedContent); // Convert markdown to HTML
 
           document.getElementById('content').innerHTML = htmlContent; // Display the parsed content
         } else {
-          console.error("No content found!");
+          // If there's no content or it's undefined, log the problem
+          console.error("No content found! Here's the full response: ", data);
         }
       })
       .catch(error => {
@@ -65,6 +69,7 @@
       });
   });
 });
+
 
   </script>
 </body>
