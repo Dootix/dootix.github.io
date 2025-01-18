@@ -32,26 +32,35 @@
 
       <h2>Posts</h2>
       <ul>
-        <li><a href="posts/reversing-example.md" class="load-markdown" data-file="posts/reversing-example.md">Reversing Example 1</a></li>
+        <li><button class="load-markdown" data-file="posts/reversing-example.md">Reversing Example 1</button></li>
         <!-- Add more posts here -->
       </ul>
+
+      <!-- Placeholder for Markdown content -->
+      <div id="markdown-content"></div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
     // JavaScript to fetch and render Markdown
-    document.querySelectorAll('.load-markdown').forEach(link => {
-      link.addEventListener('click', function (e) {
+    document.querySelectorAll('.load-markdown').forEach(button => {
+      button.addEventListener('click', function (e) {
         e.preventDefault();
         const file = this.getAttribute('data-file');
         fetch(file)
           .then(response => response.text())
           .then(data => {
-            document.getElementById('content').innerHTML = marked(data);
+            // Render the fetched markdown content into HTML
+            document.getElementById('markdown-content').innerHTML = marked(data);
+          })
+          .catch(err => {
+            document.getElementById('markdown-content').innerHTML = "<p>Failed to load content.</p>";
+            console.error("Error fetching Markdown file:", err);
           });
       });
     });
   </script>
 </body>
 </html>
+
