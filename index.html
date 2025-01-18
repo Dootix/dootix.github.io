@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reverse Engineering & Malware Analysis by Dootix</title>
   <link rel="stylesheet" href="assets/css/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -19,11 +18,6 @@
         <p></p>
         <li><a href="https://www.linkedin.com/in/oskarrudzinski/" target="_blank">LinkedIn</a></li>
       </ul>
-      <div class="nav">
-        <a href="index.html">Home</a>
-        <a href="posts">Posts</a>
-        <a href="reports">Reports</a>
-      </div>
     </div>
 
     <!-- Main Content -->
@@ -33,45 +27,11 @@
 
       <h2>Posts</h2>
       <ul>
-        <li><button class="load-markdown" data-file="posts/reversing-example.md">Reversing Example 1</button></li>
+        <li><a href="https://raw.githubusercontent.com/Dootix/dootix.github.io/main/posts/reversing-example.md" target="_blank">Weird xmm shuffle? Optimized memory allocation!</a></li>
         <!-- Add more posts here -->
       </ul>
     </div>
   </div>
-
-  <!-- JavaScript to handle Markdown loading via GitHub API -->
-  <script>
-    document.querySelectorAll('.load-markdown').forEach(link => {
-  link.addEventListener('click', function (e) {
-    e.preventDefault();
-    const file = this.getAttribute('data-file');
-
-    // Fetch content directly from GitHub API
-    fetch(`https://api.github.com/repos/Dootix/dootix.github.io/contents/${file}?ref=main`)
-      .then(response => response.json())
-      .then(data => {
-        // Log the full response to check if it contains content
-        console.log("GitHub API response:", data);
-
-        if (data && data.content) {
-          // Decode base64 content
-          const decodedContent = atob(data.content);
-          const htmlContent = marked(decodedContent); // Convert markdown to HTML
-
-          document.getElementById('content').innerHTML = htmlContent; // Display the parsed content
-        } else {
-          // If there's no content or it's undefined, log the problem
-          console.error("No content found! Here's the full response: ", data);
-        }
-      })
-      .catch(error => {
-        console.error("Failed to load content: ", error);
-      });
-  });
-});
-
-
-  </script>
 </body>
 </html>
 
