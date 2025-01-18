@@ -1,5 +1,56 @@
+# Jekyll Configuration File
+
+# Site Settings
+title: "Dootix's Malware Lab"
+description: "Malware Analysis and Reverse Engineering Insights"
+baseurl: "" # leave empty for root
+url: "https://yourdomain.com" # Replace with your domain
+
+# Social Media Links
+social_links:
+  twitter: "https://twitter.com/Dootix"
+  linkedin: "https://linkedin.com/in/Dootix"
+  github: "https://github.com/Dootix"
+  facebook: "https://facebook.com/Dootix"
+
+# Build Settings
+markdown: kramdown
+highlighter: rouge
+
+# Collections
+collections:
+  reports:
+    output: true
+  posts:
+    output: true
+
+# Plugins (install via bundler if needed)
+gems:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-paginate
+
+# Time Format
+timezone: "UTC"
+
+# Default Configuration for Posts and Reports
+defaults:
+  - scope:
+      path: "reports"
+    values:
+      layout: report
+  - scope:
+      path: "_posts"
+    values:
+      layout: post
+
+# Exclude these folders from the build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+
+# Plugins and Additional Configuration
 remote_theme: pages-themes/midnight@v0.2.0
 plugins:
 - jekyll-remote-theme # add this line to the plugins list if you already have one
-description: Malware analysis and reverse engineering. Low-level stuff. Cybersec professional.
-avatar: "https://avatars.githubusercontent.com/u/24233481?v=4"
