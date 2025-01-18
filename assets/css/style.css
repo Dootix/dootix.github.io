@@ -7,11 +7,12 @@
 
 body {
   font-family: 'Press Start 2P', monospace; /* Pixelated font for that 8-bit feel */
-  background-color: #0a0a0a; /* Dark background for high contrast */
+  background-color: #050505; /* Dark background */
   color: #e5e5e5; /* Light text */
   line-height: 1.6;
   display: flex;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 .container {
@@ -21,21 +22,28 @@ body {
 
 .sidebar {
   width: 250px;
-  background-color: #111; /* Darker sidebar */
-  color: #0fdfbf; /* Neon green accent for text */
+  background-color: #1a0000; /* Deep red-black */
+  color: #ff003c; /* Neon red accent for text */
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  box-shadow: 0 0 15px #ff003c;
 }
 
 .avatar img {
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  border: 3px solid #0fdfbf;
+  border: 3px solid #ff003c;
   margin-bottom: 20px;
+  transition: transform 0.5s;
+}
+
+.avatar img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #ff003c;
 }
 
 .social-links {
@@ -49,13 +57,14 @@ body {
 
 .social-links a {
   text-decoration: none;
-  color: #0fdfbf;
+  color: #ff003c;
   font-size: 18px;
-  transition: color 0.3s ease-in-out;
+  transition: color 0.3s, text-shadow 0.3s;
 }
 
 .social-links a:hover {
-  color: #f5a623; /* Neon orange on hover */
+  color: #e60023; /* Deep red on hover */
+  text-shadow: 0 0 10px #ff003c, 0 0 20px #e60023;
 }
 
 .nav {
@@ -68,29 +77,32 @@ body {
   padding: 12px;
   text-decoration: none;
   color: #e5e5e5;
-  background-color: #333;
+  background-color: #330000;
   margin-bottom: 10px;
   font-weight: bold;
   text-align: center;
   border-radius: 4px;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .nav a:hover {
-  background-color: #0fdfbf;
-  color: #111;
+  background-color: #ff003c;
+  color: #1a0000;
+  box-shadow: 0 0 10px #ff003c, 0 0 20px #e60023;
 }
 
 .content {
   flex-grow: 1;
   padding: 40px;
-  background-color: #222;
+  background-color: #0f0f0f;
   color: #e5e5e5;
+  box-shadow: inset 0 0 15px #330000;
 }
 
 h1, h2 {
-  color: #0fdfbf; /* Neon green for headings */
+  color: #ff003c; /* Neon red for headings */
   margin-bottom: 20px;
+  text-shadow: 0 0 10px #ff003c, 0 0 20px #e60023;
 }
 
 h1 {
@@ -114,28 +126,30 @@ ul li {
 
 ul li button {
   color: #e5e5e5;
-  background-color: #333;
+  background-color: #330000;
   padding: 10px;
   font-size: 18px;
   border: none;
   border-radius: 5px;
   width: 100%;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
 }
 
 ul li button:hover {
-  background-color: #0fdfbf;
-  color: #111;
+  background-color: #ff003c;
+  color: #1a0000;
+  box-shadow: 0 0 10px #ff003c, 0 0 20px #e60023;
 }
 
 /* For Code blocks */
 code {
-  background-color: #333;
+  background-color: #330000;
   color: #e5e5e5;
   padding: 2px 5px;
   border-radius: 4px;
   font-size: 0.9em;
+  box-shadow: 0 0 10px #ff003c;
 }
 
 /* Custom scrollbars for a cyberpunk feel */
@@ -144,15 +158,17 @@ code {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #0fdfbf;
+  background-color: #ff003c;
   border-radius: 6px;
+  box-shadow: inset 0 0 10px #e60023;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #f5a623;
+  background-color: #e60023;
 }
 
 ::-webkit-scrollbar-track {
-  background: #333;
+  background: #330000;
 }
+
 
