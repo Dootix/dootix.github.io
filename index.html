@@ -18,6 +18,11 @@
         <p></p>
         <li><a href="https://www.linkedin.com/in/oskarrudzinski/" target="_blank">LinkedIn</a></li>
       </ul>
+      <div class="nav">
+        <a href="index.html">Home</a>
+        <a href="posts">Posts</a>
+        <a href="reports">Reports</a>
+      </div>
     </div>
 
     <!-- Main Content -->
@@ -27,36 +32,39 @@
 
       <h2>Posts</h2>
       <ul>
-        <li><button class="load-markdown" data-file="https://github.com/Dootix/dootix.github.io/blob/f186ac0dcff19805e2393f0b03bcad4a9eeee3fd/posts/reversing-example.md">Reversing Example 1</button></li>
+        <li><button class="load-markdown" data-file="posts/reversing-example.md">Reversing Example 1</button></li>
         <!-- Add more posts here -->
       </ul>
-
-      <!-- Placeholder for Markdown content -->
-      <div id="markdown-content"></div>
     </div>
   </div>
 
+  <!-- JavaScript to handle Markdown loading via GitHub API -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-    // JavaScript to fetch and render Markdown
     document.querySelectorAll('.load-markdown').forEach(button => {
       button.addEventListener('click', function (e) {
         e.preventDefault();
         const file = this.getAttribute('data-file');
-        fetch(file)
-          .then(response => response.text())
+        const apiUrl = `https://api.github.com/repos/Dootix/dootix.github.io/contents/${file}`;
+        
+        fetch(apiUrl)
+          .then(response => response.json())
           .then(data => {
-            // Render the fetched markdown content into HTML
-            document.getElementById('markdown-content').innerHTML = marked(data);
+            if (data.content) {
+              const markdown = atob(data.content); // Decode the base64 content
+              document.getElementById('content').innerHTML = marked(markdown); // Render the markdown as HTML
+            } else {
+              throw new Error('Failed to load content');
+            }
           })
-          .catch(err => {
-            document.getElementById('markdown-content').innerHTML = "<p>Failed to load content.</p>";
-            console.error("Error fetching Markdown file:", err);
+          .catch(error => {
+            console.error('Error loading markdown file:', error);
           });
       });
     });
   </script>
 </body>
 </html>
+
 
 
