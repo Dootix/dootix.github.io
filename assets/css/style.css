@@ -112,16 +112,19 @@ ul li {
   margin-bottom: 10px;
 }
 
-ul li a {
+ul li button {
   color: #e5e5e5;
-  text-decoration: none;
-  padding: 10px;
   background-color: #333;
+  padding: 10px;
+  font-size: 18px;
+  border: none;
   border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-ul li a:hover {
+ul li button:hover {
   background-color: #0fdfbf;
   color: #111;
 }
@@ -152,3 +155,4 @@ code {
 ::-webkit-scrollbar-track {
   background: #333;
 }
+
