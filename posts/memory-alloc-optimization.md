@@ -1,4 +1,4 @@
-# Weird XMM shuffle? Memory allocation optimization!
+# Weird XMM shuffle? Memory copy optimization!
 
 During my recent "C coding and subsequent reversing" session I've been experimenting with memory allocations, utilizing standard C functions like `memcpy(`) or WinApi's `RtlCopyMemory`.
 
