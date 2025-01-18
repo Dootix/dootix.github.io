@@ -41,27 +41,33 @@
   <!-- JavaScript to handle Markdown loading via GitHub API -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-    document.querySelectorAll('.load-markdown').forEach(button => {
-      button.addEventListener('click', function (e) {
-        e.preventDefault();
-        const file = this.getAttribute('data-file');
-        const apiUrl = `https://api.github.com/repos/Dootix/dootix.github.io/contents/${file}`;
-        
-        fetch(apiUrl)
-          .then(response => response.json())
-          .then(data => {
-            if (data.content) {
-              const markdown = atob(data.content); // Decode the base64 content
-              document.getElementById('content').innerHTML = marked(markdown); // Render the markdown as HTML
-            } else {
-              throw new Error('Failed to load content');
-            }
-          })
-          .catch(error => {
-            console.error('Error loading markdown file:', error);
-          });
+    document.querySelectorAll('.load-markdown').forEach(link => {
+  link.addEventListener('click', function (e) {
+    e.preventDefault();
+    const file = this.getAttribute('data-file');
+    
+    // Fetch the file data from GitHub API
+    fetch(`https://api.github.com/repos/Dootix/dootix.github.io/contents/${file}?ref=main`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.content) {
+          // Decode base64 content
+          const decodedContent = atob(data.content);
+
+          // Convert decoded content to HTML using marked.js
+          const htmlContent = marked(decodedContent);
+
+          // Inject the HTML content into the page
+          document.getElementById('content').innerHTML = htmlContent;
+        } else {
+          console.error("No content found!");
+        }
+      })
+      .catch(error => {
+        console.error("Failed to load content: ", error);
       });
-    });
+  });
+});
   </script>
 </body>
 </html>
