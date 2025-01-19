@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown Viewer</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="avatar">
+        <img src="https://avatars.githubusercontent.com/u/24233481?v=4" alt="Your Avatar">
+      </div>
+      <ul class="social-links">
+        <li><a href="https://github.com/Dootix" target="_blank">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/oskarrudzinski/" target="_blank">LinkedIn</a></li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content" id="content">
+      <h1>Markdown Viewer</h1>
+      <div id="markdown-content" style="color: white;">
+        <!-- Rendered Markdown content will appear here -->
+      </div>
+    </div>
+  </div>
+  <script src="render-markdown.js"></script>
+</body>
+</html>
