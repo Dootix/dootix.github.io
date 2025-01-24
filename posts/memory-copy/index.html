@@ -17,12 +17,12 @@
         <li><a href="https://github.com/Dootix" target="_blank">GitHub</a></li>
         <li><a href="https://www.linkedin.com/in/oskarrudzinski/" target="_blank">LinkedIn</a></li>
       </ul>
+      <button onclick="location.href='/'" class="home-button">← Home</button>
     </div>
 
     <!-- Main Content -->
     <div class="content" id="content">
       <h1>Weird XMM shuffle? Memory Copy Optimization!</h1>
-      <button onclick="location.href='/'" class="home-button">← Home</button>
       <p>During my recent "C coding and subsequent reversing" session I've been experimenting with memory allocations, utilizing standard C functions like <code>memcpy()</code> or WinApi's <code>RtlCopyMemory</code>.</p>
       <p>Binary was compiled as x64 in VS2022's Release mode. Below, you can see the optimization that was applied, instead of direct <code>memcpy()</code> call that I specified in the original code:</p>
       <div class="image-wrapper">
@@ -48,8 +48,20 @@ movups xmmword ptr [rax-70h], xmm1
 ...
       </pre>
       <p>is the main body of the loop. <code>xmm1</code> and <code>xmm0</code> are utilized to fetch for <code>16 bytes</code> of data from the allocated buffer's memory address that is being held in <code>r8</code> (decreasing it by <code>10h (16 bytes)</code> after each <code>movups</code> instruction) and copying them into memory pointed to by <code>rax</code> (also decreasing the relative address to <code>rax</code> by <code>10h</code> in each instruction).</p>
+      <p>This continues for the total of 8 times until data is copied from <code>r8-10h</code> to <code>rax-10h</code>. Then, <code>r9</code> is decreased by <code>1</code> and checked if it's not zero:</p>
+      <pre>
+sub r9, 1
+jnz short loc_1400010E2
+      </pre>
+      <p>If not, the loop will iterate once again. Remember that we have <code>272 bytes</code> to copy, each copy instruction via <code>xmm0</code> or <code>xmm1</code> takes <code>16 bytes</code>, so one loop iteration lets us copy <code>128 bytes</code>. Therefore, we need two full iterations and the remainder will be copied outside of the loop, as seen below:</p>
+      <div class="image-wrapper">
+        <img width="332" alt="image" src="https://github.com/user-attachments/assets/d8c54f90-d741-42d1-990e-207b88a26a40" />
+      </div>
+      <p>The last set <code>movups xmm0, xmmword ptr [r8]</code> and <code>movups xmmword ptr [rax], xmm0</code> is utilized to copy the remaining bytes, right in between call to <code>memset</code>. <code>memset</code> in our case is called to fill the original data buffer with zeroes, as seen by <code>xor edx, edx</code> being passed as value.</p>
+      <p>Hope this explanation will help you whenever you encounter similar disassembly code when reversing malware samples.</p>
     </div>
   </div>
 </body>
 </html>
+
 
