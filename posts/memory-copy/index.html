@@ -21,17 +21,37 @@
 
     <!-- Main Content -->
     <div class="content" id="content">
-      <h1>Reverse Engineering & Malware Analysis by Dootix</h1>
-      <br></br>
-      <h2>Reports</h2>
-      <ul>
-        <li><a href="https://github.com/Dootix/dootix.github.io/blob/main/AgentTesla_analysis_report.pdf" style="color: white;">AgentTesla</a></li>
-      <br></br>
-      <h2>Posts</h2>
-      <ul>
-        <li><a href="https://github.com/Dootix/dootix.github.io/blob/main/posts/memory-alloc-optimization.md" style="color: white;">Weird xmm shuffle? Optimized memory copy!</a></li>
-  <!-- Add more links similarly -->
-</ul>
+      <h1>Weird XMM shuffle? Memory Copy Optimization!</h1>
+      <p>During my recent "C coding and subsequent reversing" session I've been experimenting with memory allocations, utilizing standard C functions like <code>memcpy()</code> or WinApi's <code>RtlCopyMemory</code>.</p>
+      <p>Binary was compiled as x64 in VS2022's Release mode. Below, you can see the optimization that was applied, instead of direct <code>memcpy()</code> call that I specified in the original code:</p>
+      <img width="617" alt="image" src="https://github.com/user-attachments/assets/1ce897c9-f092-470f-9313-61b8a62e2661" />
+      <p>Alright, let's go step by step to understand what is happening here!</p>
+      <pre>
+mov rax, rbx
+lea r8, unk_14004080
+mov r9d, 2
+      </pre>
+      <p>This is the initial setup for subsequent XMM-oriented operations. <code>unk_14004080</code> is a previously allocated buffer with <code>272 bytes</code> of data to be copied from. <code>rax</code> contains a pointer to the destination address. Address of source buffer is loaded into <code>r8</code> via <code>lea r8, unk_14004080</code>. Next, <code>2</code> is copied into lower <code>32-bits</code> of <code>r9</code> register to serve as a loop counter.</p>
+      <p>After that, we enter the main loop of data copy via <code>xmm</code> registers, which are <code>128-bit</code> registers designed for floating point arithmetics and variety of other data types.</p>
+      <img width="288" alt="image" src="https://github.com/user-attachments/assets/7a1792e8-fd15-4335-a1b1-4c536c9a2dfe" />
+      <p>Initial <code>lea rax, [rax+80h]</code> loads a pointer to <code>rax+80h</code> into <code>rax</code>. It essentially works as a destination pointer to where the data is being copied to from previously seen <code>r8</code>, that holds a pointer to allocated buffer with data.</p>
+      <p>Next, <code>movups xmm0, xmmword ptr [r8]</code> instruction loads <code>16 bytes (128 bits)</code> of unaligned data, pointed to in memory by <code>r8</code> via <code>movups</code> into <code>xmm0</code> register. The <code>xmm0</code> now holds the first chunk of data. Another set of instructions:</p>
+      <pre>
+movups xmmword ptr [rax-80h], xmm0
+movups xmm1, xmmword ptr [r8+70h]
+movups xmmword ptr [rax-70h], xmm1
+...
+      </pre>
+      <p>is the main body of the loop. <code>xmm1</code> and <code>xmm0</code> are utilized to fetch for <code>16 bytes</code> of data from the allocated buffer's memory address that is being held in <code>r8</code> (decreasing it by <code>10h (16 bytes)</code> after each <code>movups</code> instruction) and copying them into memory pointed to by <code>rax</code> (also decreasing the relative address to <code>rax</code> by <code>10h</code> in each instruction).</p>
+      <p>This continues for the total of 8 times until data is copied from <code>r8-10h</code> to <code>rax-10h</code>. Then, <code>r9</code> is decreased by <code>1</code> and checked if it's not zero:</p>
+      <pre>
+sub r9, 1
+jnz short loc_1400010E2
+      </pre>
+      <p>If not, the loop will iterate once again. Remember that we have <code>272 bytes</code> to copy, each copy instruction via <code>xmm0</code> or <code>xmm1</code> takes <code>16 bytes</code>, so one loop iteration lets us copy <code>128 bytes</code>. Therefore, we need two full iterations and the remainder will be copied outside of the loop, as seen below:</p>
+      <img width="332" alt="image" src="https://github.com/user-attachments/assets/d8c54f90-d741-42d1-990e-207b88a26a40" />
+      <p>The last set <code>movups xmm0, xmmword ptr [r8]</code> and <code>movups xmmword ptr [rax], xmm0</code> is utilized to copy the remaining bytes, right in between call to <code>memset</code>. <code>memset</code> in our case is called to fill the original data buffer with zeroes, as seen by <code>xor edx, edx</code> being passed as value.</p>
+      <p>Hope this explanation will help you whenever you encounter similar disassembly code when reversing malware samples.</p>
     </div>
   </div>
 </body>
