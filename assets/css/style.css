@@ -179,3 +179,36 @@ code {
   background: #330000;
 }
 
+/* Centering images inside .image-wrapper */
+.image-wrapper {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.image-wrapper img {
+  max-width: 100%;
+  height: auto;
+}
+/* Styling the Home button */
+.home-button {
+  display: inline-block;
+  margin: 20px 0;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #e5e5e5;
+  background-color: #330000;
+  border: 2px solid #ff003c;
+  border-radius: 5px;
+  cursor: pointer;
+  text-shadow: 0 0 5px #ff003c;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+}
+
+.home-button:hover {
+  background-color: #ff003c;
+  color: #1a0000;
+  transform: scale(1.05);
+}
+
+
