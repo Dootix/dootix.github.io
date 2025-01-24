@@ -5,19 +5,26 @@
   box-sizing: border-box;
 }
 
-body {
+html, body {
   font-family: 'Press Start 2P', monospace; /* Pixelated font for that 8-bit feel */
   background-color: #050505; /* Dark background */
   color: #e5e5e5; /* Light text */
   line-height: 1.6;
+  height: 100%; /* Ensure full height is considered */
+  overflow: auto; /* Allow scrolling */
+}
+
+body {
   display: flex;
-  min-height: 100vh;
-  overflow: hidden;
+  flex-direction: column;
 }
 
 .container {
   display: flex;
+  flex-grow: 1; /* Let the container grow and fill the space */
   width: 100%;
+  min-height: 100%; /* Ensure it grows with the content */
+  overflow: auto; /* Allow scrolling inside the container if needed */
 }
 
 .sidebar {
@@ -92,11 +99,12 @@ body {
 }
 
 .content {
-  flex-grow: 1;
+  flex-grow: 1; /* Allow content to grow */
   padding: 40px;
   background-color: #0f0f0f;
   color: #e5e5e5;
   box-shadow: inset 0 0 15px #330000;
+  overflow: auto; /* Enable scrolling within content if needed */
 }
 
 h1, h2 {
@@ -170,5 +178,4 @@ code {
 ::-webkit-scrollbar-track {
   background: #330000;
 }
-
 
